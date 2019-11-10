@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WEBAPI.EF_MODEL;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace WEBAPI
 {
@@ -30,6 +31,19 @@ namespace WEBAPI
             services.AddDbContext<CarDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("CarDbConnectionString")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //https://neelbhatt.com/2017/12/11/enable-swagger-in-your-net-core-2-0-application-step-by-step-guide/
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Car API",
+                    Description = "",
+                    TermsOfService = "None",
+                    Contact = new Contact() { Name = "Alexey Delobosko", Email = "a.delobosko@gmail.com" }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +60,12 @@ namespace WEBAPI
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
     }
 }

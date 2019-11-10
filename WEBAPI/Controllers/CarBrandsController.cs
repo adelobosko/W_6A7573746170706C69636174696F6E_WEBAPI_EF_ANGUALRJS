@@ -12,44 +12,46 @@ namespace WEBAPI.Controllers
     [ApiController]
     public class CarBrandsController : ControllerBase
     {
+        private CarDbContext _context;
         public CarBrandsController(CarDbContext carDbContext)
         {
-            CarDbCommand.IntitializeDb(carDbContext);
+            _context = carDbContext;
+            CarDbCommand.IntitializeDb(_context);
         }
 
         // GET api/carbrands
         [HttpGet]
         public IEnumerable<CarBrand> Get()
         {
-            return CarDbCommand.GetCarBrands();
+            return CarDbCommand.GetCarBrands(_context);
         }
 
         // GET api/carbrands/guid
         [HttpGet("{guid}")]
         public CarBrand Get(Guid guid)
         {
-            return CarDbCommand.GetCarBrand(guid);
+            return CarDbCommand.GetCarBrand(_context, guid);
         }
 
         // POST api/carbrands
         [HttpPost]
         public IActionResult Post([FromBody] NewCarBrand newCarBrand)
         {
-            return CarDbCommand.CreateCarBrand(newCarBrand);
+            return CarDbCommand.CreateCarBrand(_context, newCarBrand);
         }
 
         // PUT api/carbrands/guid
         [HttpPut("{guid}")]
         public IActionResult Put(Guid guid, [FromBody] NewCarBrand newCarBrand)
         {
-            return CarDbCommand.UpdateCarBrand(guid, newCarBrand);
+            return CarDbCommand.UpdateCarBrand(_context, guid, newCarBrand);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid guid)
         {
-            return CarDbCommand.DeleteCarBrand(guid);
+            return CarDbCommand.DeleteCarBrand(_context, guid);
 
         }
     }
