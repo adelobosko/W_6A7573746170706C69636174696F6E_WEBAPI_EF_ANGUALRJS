@@ -12,7 +12,6 @@ namespace WEBAPI.EF_MODEL
         [StringLength(64)]
         public string Name { get; set; }
         public string Logo { get; set; }
-        [StringLength(1024)]
         public string Describe { get; set; }
 
         public ICollection<CarModel> CarModels { get; set; }
