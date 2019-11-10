@@ -41,9 +41,7 @@ namespace WEBAPI.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CarBrandId");
-
-                    b.Property<Guid?>("CarBrandId1");
+                    b.Property<Guid>("CarBrandId");
 
                     b.Property<string>("Logo");
 
@@ -52,25 +50,23 @@ namespace WEBAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarBrandId1");
+                    b.HasIndex("CarBrandId");
 
                     b.ToTable("CarModels");
                 });
 
             modelBuilder.Entity("WEBAPI.EF_MODEL.CarPhoto", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CarModelId");
-
-                    b.Property<Guid?>("CarModelId1");
+                    b.Property<Guid>("CarModelId");
 
                     b.Property<string>("Photo");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarModelId1");
+                    b.HasIndex("CarModelId");
 
                     b.ToTable("CarPhotos");
                 });
@@ -79,14 +75,16 @@ namespace WEBAPI.Migrations
                 {
                     b.HasOne("WEBAPI.EF_MODEL.CarBrand", "CarBrand")
                         .WithMany("CarModels")
-                        .HasForeignKey("CarBrandId1");
+                        .HasForeignKey("CarBrandId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WEBAPI.EF_MODEL.CarPhoto", b =>
                 {
                     b.HasOne("WEBAPI.EF_MODEL.CarModel", "CarModel")
                         .WithMany("CarPhotos")
-                        .HasForeignKey("CarModelId1");
+                        .HasForeignKey("CarModelId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

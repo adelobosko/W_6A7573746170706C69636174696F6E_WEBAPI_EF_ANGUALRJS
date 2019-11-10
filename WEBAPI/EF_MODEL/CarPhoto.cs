@@ -7,10 +7,11 @@ namespace WEBAPI.EF_MODEL
 {
     public class CarPhoto
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Photo { get; set; }
 
-        public int? CarModelId { get; set; }
+        public Guid CarModelId { get; set; }
+
         public CarModel CarModel { get; set; }
     }
 }

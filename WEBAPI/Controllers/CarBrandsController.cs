@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AccessModel;
 using Microsoft.AspNetCore.Mvc;
 using WEBAPI.EF_MODEL;
@@ -47,12 +45,11 @@ namespace WEBAPI.Controllers
             return CarDbCommand.UpdateCarBrand(_context, guid, newCarBrand);
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
+        // DELETE api/carbrands/guid
+        [HttpDelete("{guid}")]
         public IActionResult Delete(Guid guid)
         {
             return CarDbCommand.DeleteCarBrand(_context, guid);
-
         }
     }
 }

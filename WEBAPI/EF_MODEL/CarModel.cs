@@ -13,7 +13,7 @@ namespace WEBAPI.EF_MODEL
         public string Name { get; set; }
         public string Logo { get; set; }
 
-        public int? CarBrandId { get; set; }
+        public Guid CarBrandId { get; set; }
         public CarBrand CarBrand { get; set; }
         public ICollection<CarPhoto> CarPhotos { get; set; }
 

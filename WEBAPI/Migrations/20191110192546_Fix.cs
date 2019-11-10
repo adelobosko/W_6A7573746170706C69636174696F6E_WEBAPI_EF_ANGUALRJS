@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WEBAPI.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace WEBAPI.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 64, nullable: true),
                     Logo = table.Column<string>(nullable: true),
-                    Describe = table.Column<string>(maxLength: 1024, nullable: true)
+                    Describe = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,49 +28,47 @@ namespace WEBAPI.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 64, nullable: true),
                     Logo = table.Column<string>(nullable: true),
-                    CarBrandId = table.Column<int>(nullable: true),
-                    CarBrandId1 = table.Column<Guid>(nullable: true)
+                    CarBrandId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CarModels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CarModels_CarBrands_CarBrandId1",
-                        column: x => x.CarBrandId1,
+                        name: "FK_CarModels_CarBrands_CarBrandId",
+                        column: x => x.CarBrandId,
                         principalTable: "CarBrands",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "CarPhotos",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Photo = table.Column<string>(nullable: true),
-                    CarModelId = table.Column<int>(nullable: true),
-                    CarModelId1 = table.Column<Guid>(nullable: true)
+                    CarModelId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CarPhotos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CarPhotos_CarModels_CarModelId1",
-                        column: x => x.CarModelId1,
+                        name: "FK_CarPhotos_CarModels_CarModelId",
+                        column: x => x.CarModelId,
                         principalTable: "CarModels",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarModels_CarBrandId1",
+                name: "IX_CarModels_CarBrandId",
                 table: "CarModels",
-                column: "CarBrandId1");
+                column: "CarBrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarPhotos_CarModelId1",
+                name: "IX_CarPhotos_CarModelId",
                 table: "CarPhotos",
-                column: "CarModelId1");
+                column: "CarModelId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

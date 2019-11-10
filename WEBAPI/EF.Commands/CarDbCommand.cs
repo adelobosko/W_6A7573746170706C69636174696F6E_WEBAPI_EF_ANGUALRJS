@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AccessModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WEBAPI.EF_MODEL
 {
@@ -33,12 +33,12 @@ namespace WEBAPI.EF_MODEL
 
         public static IEnumerable<CarBrand> GetCarBrands(CarDbContext context)
         {
-            return context.CarBrands.ToList();
+            return context.CarBrands.Include(cb => cb.CarModels).ToList();
         }
 
         public static CarBrand GetCarBrand(CarDbContext context, Guid guid)
         {
-            return context.CarBrands.SingleOrDefault(cb => cb.Id == guid);
+            return context.CarBrands.Include(cb => cb.CarModels).SingleOrDefault(cb => cb.Id == guid);
         }
 
         public static IActionResult CreateCarBrand(CarDbContext context, NewCarBrand newCarBrand)
@@ -75,7 +75,141 @@ namespace WEBAPI.EF_MODEL
             if (carBand == null)
                 return new NotFoundObjectResult(guid);
 
-            context.Remove(carBand);
+            context.CarBrands.Remove(carBand);
+            context.SaveChanges();
+            return new OkResult();
+        }
+
+        public static IEnumerable<CarModel> GetCarModels(CarDbContext context)
+        {
+            return context.CarModels.Include(cm => cm.CarPhotos).Include(cm => cm.CarBrand).ToList();
+        }
+
+        public static CarModel GetCarModel(CarDbContext context, Guid guid)
+        {
+            return context.CarModels.Include(cm => cm.CarPhotos).Include(cm => cm.CarBrand).SingleOrDefault(cb => cb.Id == guid);
+        }
+
+        public static IActionResult CreateCarModel(CarDbContext context, NewCarModel newCarModel)
+        {
+            var carBrand = context.CarBrands.SingleOrDefault(cb => cb.Id == newCarModel.CarBrandId);
+            if (carBrand == null)
+            {
+                return new NotFoundObjectResult(newCarModel.CarBrandId);
+            }
+
+            var carModel = new CarModel()
+            {
+                Id = Guid.NewGuid(),
+                Name = newCarModel.Name,
+                Logo = newCarModel.Logo,
+                CarBrand = carBrand,
+                CarBrandId = carBrand.Id
+
+            };
+
+            context.CarModels.Add(carModel);
+            context.SaveChanges();
+            return new OkResult();
+        }
+
+        public static IActionResult UpdateCarModel(CarDbContext context, Guid guid, NewCarModel newCarModel)
+        {
+            var carBrand = context.CarBrands.SingleOrDefault(cb => cb.Id == newCarModel.CarBrandId);
+            if (carBrand == null)
+            {
+                return new NotFoundObjectResult(newCarModel.CarBrandId);
+            }
+
+            var carModel = context.CarModels.SingleOrDefault(cb => cb.Id == guid);
+
+            if (carModel == null)
+            {
+                return new NotFoundObjectResult(guid);
+            }
+
+            carModel.Name = newCarModel.Name;
+            carModel.Logo = newCarModel.Logo;
+            carModel.CarBrand = carBrand;
+            carModel.CarBrandId = carBrand.Id;
+            context.SaveChanges();
+            return new OkResult();
+        }
+
+        public static IActionResult DeleteCarModel(CarDbContext context, Guid guid)
+        {
+            var carModel = context.CarModels.SingleOrDefault(cb => cb.Id == guid);
+
+            if (carModel == null)
+                return new NotFoundObjectResult(guid);
+
+            context.CarModels.Remove(carModel);
+            context.SaveChanges();
+            return new OkResult();
+        }
+
+        public static IEnumerable<CarPhoto> GetCarPhotos(CarDbContext context)
+        {
+            return context.CarPhotos.Include(cp => cp.CarModel).ToList();
+        }
+
+        public static CarPhoto GetCarPhoto(CarDbContext context, Guid guid)
+        {
+            return context.CarPhotos.Include(cp => cp.CarModel).SingleOrDefault(cb => cb.Id == guid);
+        }
+
+        public static IActionResult CreateCarPhoto(CarDbContext context, NewCarPhoto newCarPhoto)
+        {
+            var carModel = context.CarModels.SingleOrDefault(cb => cb.Id == newCarPhoto.CarModelId);
+            if (carModel == null)
+            {
+                return new NotFoundObjectResult(newCarPhoto.CarModelId);
+            }
+
+            var carPhoto = new CarPhoto()
+            {
+                Id = Guid.NewGuid(),
+                Photo = newCarPhoto.Photo,
+                CarModel = carModel,
+                CarModelId = carModel.Id
+
+            };
+
+            context.CarPhotos.Add(carPhoto);
+            context.SaveChanges();
+            return new OkResult();
+        }
+
+        public static IActionResult UpdateCarPhoto(CarDbContext context, Guid guid, NewCarPhoto newCarPhoto)
+        {
+            var carModel = context.CarModels.SingleOrDefault(cb => cb.Id == newCarPhoto.CarModelId);
+            if (carModel == null)
+            {
+                return new NotFoundObjectResult(newCarPhoto.CarModelId);
+            }
+
+            var carPhoto = context.CarPhotos.SingleOrDefault(cb => cb.Id == guid);
+
+            if (carPhoto == null)
+            {
+                return new NotFoundObjectResult(guid);
+            }
+
+            carPhoto.Photo = newCarPhoto.Photo;
+            carPhoto.CarModel = carModel;
+            carPhoto.CarModelId = carModel.Id;
+            context.SaveChanges();
+            return new OkResult();
+        }
+
+        public static IActionResult DeleteCarPhoto(CarDbContext context, Guid guid)
+        {
+            var carPhoto = context.CarPhotos.SingleOrDefault(cb => cb.Id == guid);
+
+            if (carPhoto == null)
+                return new NotFoundObjectResult(guid);
+
+            context.CarPhotos.Remove(carPhoto);
             context.SaveChanges();
             return new OkResult();
         }
