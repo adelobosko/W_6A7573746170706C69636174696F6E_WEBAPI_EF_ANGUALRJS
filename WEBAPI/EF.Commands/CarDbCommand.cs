@@ -194,9 +194,6 @@ namespace WEBAPI.EF_MODEL
 
         public static void InitializeDb(CarDbContext context)
         {
-            if (!context.CarBrands.Any())
-                return;
-
             //https://auto.24tv.ua/ru/tag/brandList/
             var bmw = new CarBrand()
             {
@@ -244,6 +241,8 @@ namespace WEBAPI.EF_MODEL
                     CarModel = bmwx5,
                     CarModelId = bmwx5.Id
                 });
+
+            context.SaveChanges();
         }
     }
 }

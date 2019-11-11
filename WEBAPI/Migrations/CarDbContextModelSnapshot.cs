@@ -28,8 +28,7 @@ namespace WEBAPI.Migrations
 
                     b.Property<string>("Logo");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(64);
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -43,8 +42,7 @@ namespace WEBAPI.Migrations
 
                     b.Property<Guid>("CarBrandId");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(64);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Photo");
 

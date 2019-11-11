@@ -92,8 +92,9 @@ $("#maingrid").kendoGrid({
 $("#maingrid tbody").on("click", "tr", function (e) {
     var gview = $("#maingrid").data("kendoGrid");
     var selectedItem = gview.dataItem(gview.select());
-    if (selectedItem == null)
+    if (selectedItem == null) {
         return;
+    }
     selcarBrandId = selectedItem.id;
     var sec = $("#secondgrid").data("kendoGrid");
     sec.dataSource.read();
@@ -197,17 +198,18 @@ $("#secondgrid").kendoGrid({
             width: "40%"
         },
         { field: "carBrandId", title: "CarBrandId", width: "220px" },
-        { command: ["destroy"], title: "&nbsp;", width: "120px" }
+        { command: ["edit", "destroy"], title: "&nbsp;", width: "120px" }
     ],
-    editable: true
+    editable: "popup"
 });
 
 
-$("#secondgrid tbody").on("click", "tr", function (e) {
-    var gview = $("#maingrid").data("kendoGrid");
+$("#secondgrid tbody").on("click", "tr", function(e) {
+    var gview = $("#secondgrid").data("kendoGrid");
     var selectedItem = gview.dataItem(gview.select());
-    if (selectedItem == null)
+    if (selectedItem == null) {
         return;
+    }
     selCarModelId = selectedItem.id;
     var sec = $("#thigrid").data("kendoGrid");
     sec.dataSource.read();
@@ -307,7 +309,7 @@ $("#thigrid").kendoGrid({
             width: "40%"
         },
         { field: "carModelId", title: "carModelId", width: "220px" },
-        { command: ["destroy"], title: "&nbsp;", width: "120px" }
+        { command: ["edit", "destroy"], title: "&nbsp;", width: "120px" }
     ],
     editable: "popup"
 });

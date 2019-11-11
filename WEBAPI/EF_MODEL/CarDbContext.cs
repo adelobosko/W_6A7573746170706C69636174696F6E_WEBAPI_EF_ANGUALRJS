@@ -12,7 +12,6 @@ namespace WEBAPI.EF_MODEL
         public CarDbContext(DbContextOptions<CarDbContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
         }
     }
 }

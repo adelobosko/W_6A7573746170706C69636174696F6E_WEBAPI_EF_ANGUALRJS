@@ -10,8 +10,8 @@ using WEBAPI.EF_MODEL;
 namespace WEBAPI.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    [Migration("20191111185852_fix")]
-    partial class fix
+    [Migration("20191111191641_Test")]
+    partial class Test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,8 +30,7 @@ namespace WEBAPI.Migrations
 
                     b.Property<string>("Logo");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(64);
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -45,8 +44,7 @@ namespace WEBAPI.Migrations
 
                     b.Property<Guid>("CarBrandId");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(64);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Photo");
 
