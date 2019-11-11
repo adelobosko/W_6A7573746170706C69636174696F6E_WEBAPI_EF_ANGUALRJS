@@ -35,7 +35,7 @@ namespace WEBAPI
                     Title = "Car API",
                     Description = "",
                     TermsOfService = "None",
-                    Contact = new Contact() { Name = "Alexey Delobosko", Email = "a.delobosko@gmail.com", Url="/index.html" }
+                    Contact = new Contact() { Name = "INDEX.html", Email = "a.delobosko@gmail.com", Url="/index.html" }
                 });
             });
         }

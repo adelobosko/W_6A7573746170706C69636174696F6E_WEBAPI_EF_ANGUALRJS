@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WEBAPI.Migrations
 {
-    public partial class Fix : Migration
+    public partial class fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,7 +27,7 @@ namespace WEBAPI.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 64, nullable: true),
-                    Logo = table.Column<string>(nullable: true),
+                    Photo = table.Column<string>(nullable: true),
                     CarBrandId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>

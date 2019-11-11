@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AccessModel;
 using Microsoft.AspNetCore.Mvc;
 using WEBAPI.EF_MODEL;
@@ -19,9 +20,11 @@ namespace WEBAPI.Controllers
 
         // GET api/CarPhotos
         [HttpGet]
-        public IEnumerable<CarPhoto> Get()
+        public IEnumerable<UpdateCarPhoto> Get()
         {
-            return CarDbCommand.GetCarPhotos(_context);
+            var carPhotos = CarDbCommand.GetCarPhotos(_context);
+            var newCarPhotos = carPhotos.Select(photo => new UpdateCarPhoto() { Id = photo.Id, Photo= photo.Photo, CarModelId = photo.CarModelId}).ToList();
+            return newCarPhotos;
         }
 
         // GET api/CarPhotos/guid
@@ -33,24 +36,26 @@ namespace WEBAPI.Controllers
 
         // POST api/CarPhotos
         [HttpPost]
-        public IActionResult Post([FromBody] NewCarPhoto newCarPhoto)
+        public JsonResult Post([FromBody] NewCarPhoto newCarPhoto)
         {
-            return CarDbCommand.CreateCarPhoto(_context, newCarPhoto);
+            CarDbCommand.CreateCarPhoto(_context, newCarPhoto);
+            return new JsonResult(null);
         }
 
         // PUT api/CarPhotos/guid
         [HttpPut("{guid}")]
-        public IActionResult Put(Guid guid, [FromBody] NewCarPhoto newCarPhoto)
+        public JsonResult Put([FromBody] UpdateCarPhoto newCarPhoto)
         {
-            return CarDbCommand.UpdateCarPhoto(_context, guid, newCarPhoto);
+            CarDbCommand.UpdateCarPhoto(_context, newCarPhoto);
+            return new JsonResult(null);
         }
 
         // DELETE api/CarPhotos/guid
         [HttpDelete("{guid}")]
-        public IActionResult Delete(Guid guid)
+        public JsonResult Delete(Guid guid)
         {
-            return CarDbCommand.DeleteCarPhoto(_context, guid);
-
+            CarDbCommand.DeleteCarPhoto(_context, guid);
+            return new JsonResult(null);
         }
     }
 }

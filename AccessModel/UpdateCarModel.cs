@@ -2,8 +2,9 @@
 
 namespace AccessModel
 {
-    public class NewCarModel
+    public class UpdateCarModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Photo { get; set; }
 

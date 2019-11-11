@@ -43,10 +43,10 @@ namespace WEBAPI.Migrations
 
                     b.Property<Guid>("CarBrandId");
 
-                    b.Property<string>("Logo");
-
                     b.Property<string>("Name")
                         .HasMaxLength(64);
+
+                    b.Property<string>("Photo");
 
                     b.HasKey("Id");
 

@@ -11,7 +11,7 @@ namespace WEBAPI.EF_MODEL
         public Guid Id { get; set; }
         [StringLength(64)]
         public string Name { get; set; }
-        public string Logo { get; set; }
+        public string Photo { get; set; }
 
         public Guid CarBrandId { get; set; }
         public CarBrand CarBrand { get; set; }

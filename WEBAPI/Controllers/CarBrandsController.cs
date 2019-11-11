@@ -21,10 +21,10 @@ namespace WEBAPI.Controllers
 
         // GET api/carbrands
         [HttpGet]
-        public IEnumerable<NewCarBrand> Get()
+        public IEnumerable<UpdateCarBrand> Get()
         {
             var carBrands = CarDbCommand.GetCarBrands(_context);
-            var newCarBrands = carBrands.Select(brand => new NewCarBrand() {Id = brand.Id, Name = brand.Name, Logo = brand.Logo, Describe = brand.Describe}).ToList();
+            var newCarBrands = carBrands.Select(brand => new UpdateCarBrand() {Id = brand.Id, Name = brand.Name, Logo = brand.Logo, Describe = brand.Describe}).ToList();
             return newCarBrands;
         }
 
@@ -37,23 +37,26 @@ namespace WEBAPI.Controllers
 
         // POST api/carbrands
         [HttpPost]
-        public IActionResult Post([FromBody] NewCarBrand newCarBrand)
+        public JsonResult Post([FromBody] NewCarBrand updateCarBrand)
         {
-            return CarDbCommand.CreateCarBrand(_context, newCarBrand);
+            CarDbCommand.CreateCarBrand(_context, updateCarBrand);
+            return new JsonResult(null);
         }
 
         // PUT api/carbrands/guid
         [HttpPut("{guid}")]
-        public IActionResult Put(Guid guid, [FromBody] NewCarBrand newCarBrand)
+        public JsonResult Put(Guid guid, [FromBody] UpdateCarBrand updateCarBrand)
         {
-            return CarDbCommand.UpdateCarBrand(_context, guid, newCarBrand);
+            CarDbCommand.UpdateCarBrand(_context, updateCarBrand);
+            return new JsonResult(null);
         }
 
         // DELETE api/carbrands/guid
         [HttpDelete("{guid}")]
-        public IActionResult Delete(Guid guid)
+        public JsonResult Delete(Guid guid)
         {
-            return CarDbCommand.DeleteCarBrand(_context, guid);
+            CarDbCommand.DeleteCarBrand(_context, guid);
+            return new JsonResult(null);
         }
     }
 }
