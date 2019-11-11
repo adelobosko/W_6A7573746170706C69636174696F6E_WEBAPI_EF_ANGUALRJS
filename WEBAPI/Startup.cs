@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +35,7 @@ namespace WEBAPI
                     Title = "Car API",
                     Description = "",
                     TermsOfService = "None",
-                    Contact = new Contact() { Name = "Alexey Delobosko", Email = "a.delobosko@gmail.com" }
+                    Contact = new Contact() { Name = "Alexey Delobosko", Email = "a.delobosko@gmail.com", Url="/index.html" }
                 });
             });
         }
@@ -59,6 +60,10 @@ namespace WEBAPI
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
         }
     }
 }

@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="styles/kendo.common.min.css">
+    <link rel="stylesheet" href="styles/kendo.default.min.css">
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/kendo.all.min.js"></script>
+    <script src="js/worker.js"></script>
+</head>
+<body>
+    <div id="grid"></div>
+    <div id="grid2"></div>
+    <script>
+        var crudServiceBaseUrl = "https://localhost:44379/api/carbrands/";
+        $(document).ready(function () {
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: crudServiceBaseUrl,
+                        dataType: "json",
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8"
+                    },
+                    update: {
+                        url: crudServiceBaseUrl,
+                        dataType: "json",
+                        type: "PUT"
+                    },
+                    destroy: {
+                        url: crudServiceBaseUrl,
+                        dataType: "json",
+                        type: "DELETE"
+                    },
+                    create: {
+                        url: crudServiceBaseUrl,
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    parameterMap: function (options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    },
+                    requestStart: function (e) {
+                        if (e.type == "read") {
+                            alert(JSON.stringify(e));
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "id",
+                        fields: {
+                            name: {
+                                type: "string"
+                            },
+                            logo: {
+                                type: "string"
+                            },
+                            describe: {
+                                type: "string"
+                            }
+                        }
+                    }
+                }
+            });
+
+            $("#grid").kendoGrid({
+                dataSource: dataSource,
+                pageable: true,
+                height: 550,
+                toolbar: ["create"],
+                columns: [
+                    { field: "name", title: "Name", format: "{0:c}", width: "120px" },
+                    { field: "logo", title: "Logo", width: "120px" },
+                    { field: "describe", title: "Describe", width: "120px" },
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
+                editable: "popup"
+            });
+            /*
+                columns: [{
+                        template: "<div class='customer-photo'" +
+                            "style='background-image: url(../content/web/Customers/#:data.CustomerID#.jpg);'></div>" +
+                            "<div class='customer-name'>#: ContactName #</div>",
+                        field: "ContactName",
+                        title: "Contact Name",
+                        width: 240
+                    }, {
+                        field: "ContactTitle",
+                        title: "Contact Title"
+                    }, {
+                 */
+        });
+    </script>
+</body>
+</html>

@@ -82,12 +82,12 @@ namespace WEBAPI.EF_MODEL
 
         public static IEnumerable<CarModel> GetCarModels(CarDbContext context)
         {
-            return context.CarModels.Include(cm => cm.CarPhotos).Include(cm => cm.CarBrand).ToList();
+            return context.CarModels.Include(cm => cm.CarPhotos).ToList();
         }
 
         public static CarModel GetCarModel(CarDbContext context, Guid guid)
         {
-            return context.CarModels.Include(cm => cm.CarPhotos).Include(cm => cm.CarBrand).SingleOrDefault(cb => cb.Id == guid);
+            return context.CarModels.Include(cm => cm.CarPhotos).SingleOrDefault(cb => cb.Id == guid);
         }
 
         public static IActionResult CreateCarModel(CarDbContext context, NewCarModel newCarModel)
@@ -150,12 +150,12 @@ namespace WEBAPI.EF_MODEL
 
         public static IEnumerable<CarPhoto> GetCarPhotos(CarDbContext context)
         {
-            return context.CarPhotos.Include(cp => cp.CarModel).ToList();
+            return context.CarPhotos.ToList();
         }
 
         public static CarPhoto GetCarPhoto(CarDbContext context, Guid guid)
         {
-            return context.CarPhotos.Include(cp => cp.CarModel).SingleOrDefault(cb => cb.Id == guid);
+            return context.CarPhotos.SingleOrDefault(cb => cb.Id == guid);
         }
 
         public static IActionResult CreateCarPhoto(CarDbContext context, NewCarPhoto newCarPhoto)

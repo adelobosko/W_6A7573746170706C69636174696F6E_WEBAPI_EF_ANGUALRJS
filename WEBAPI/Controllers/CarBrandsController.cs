@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AccessModel;
 using Microsoft.AspNetCore.Mvc;
 using WEBAPI.EF_MODEL;
 
 namespace WEBAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class CarBrandsController : ControllerBase
@@ -19,9 +21,11 @@ namespace WEBAPI.Controllers
 
         // GET api/carbrands
         [HttpGet]
-        public IEnumerable<CarBrand> Get()
+        public IEnumerable<NewCarBrand> Get()
         {
-            return CarDbCommand.GetCarBrands(_context);
+            var carBrands = CarDbCommand.GetCarBrands(_context);
+            var newCarBrands = carBrands.Select(brand => new NewCarBrand() {Id = brand.Id, Name = brand.Name, Logo = brand.Logo, Describe = brand.Describe}).ToList();
+            return newCarBrands;
         }
 
         // GET api/carbrands/guid
