@@ -10,7 +10,7 @@ using WEBAPI.EF_MODEL;
 namespace WEBAPI.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    [Migration("20191111182058_fix")]
+    [Migration("20191111185852_fix")]
     partial class fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

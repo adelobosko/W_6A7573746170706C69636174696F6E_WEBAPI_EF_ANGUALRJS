@@ -211,7 +211,7 @@ $("#secondgrid tbody").on("click", "tr", function (e) {
     selCarModelId = selectedItem.id;
     var sec = $("#thigrid").data("kendoGrid");
     sec.dataSource.read();
-    sec.dataSource.filter({s
+    sec.dataSource.filter({
         field: "id",
         operator: "eq",
         value: selCarModelId

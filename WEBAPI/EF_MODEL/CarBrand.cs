@@ -6,7 +6,6 @@ namespace WEBAPI.EF_MODEL
 {
     public class CarBrand
     {
-        [Key]
         public Guid Id { get; set; }
         [StringLength(64)]
         public string Name { get; set; }

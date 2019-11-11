@@ -15,7 +15,6 @@ namespace WEBAPI.Controllers
         public CarModelsController(CarDbContext carDbContext)
         {
             _context = carDbContext;
-            CarDbCommand.IntitializeDb(_context);
         }
 
         // GET api/carmodels
